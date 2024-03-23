@@ -6,6 +6,7 @@ edition = "2021"
 [dependencies]
 clap = { version = "4.5.3", features = ["derive"] }
 colorgrad = "0.6.2"
+fpdec = { version = "0.10.3", features = ["num-traits"] }
 num-complex = "0.4.5"
 pix-engine = "0.8.0"
 rayon = "1.9.0"
