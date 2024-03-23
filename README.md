@@ -34,7 +34,7 @@ sudo pacman -S sdl2 sdl2_gfx sdl2_image sdl2_mixer sdl2_ttf
 
 #### Windows (MSVC)
   1. Download the latest SDL2 MSVC development libraries from [https://www.libsdl.org/download-2.0.php](https://www.libsdl.org/download-2.0.php) e.g. (SDL2-devel-2.0.20-VC.zip).
-  2 Download the latest SDL2_image, SDL2_mixer, and SDL2_ttf MSVC development libraries from [https://www.libsdl.org/projects/](https://www.libsdl.org/projects/). e.g. (SDL2_image-devel-2.0.5-VC.zip).
+  2. Download the latest SDL2_image, SDL2_mixer, and SDL2_ttf MSVC development libraries from [https://www.libsdl.org/projects/](https://www.libsdl.org/projects/). e.g. (SDL2_image-devel-2.0.5-VC.zip).
   3. Unzip each .zip file into a folder.
   4. Copy library files:
      - from: `lib\x64\`
