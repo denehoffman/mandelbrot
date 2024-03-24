@@ -1,3 +1,5 @@
+![](/screenshots/demo1.png?raw=true)
+
 ## Description
 This is a very simple project I made to visualize the Mandelbrot set using Rust. The Mandelbrot set is a fractal defined by iterating $z_{i+1} = z_i^2 + c$ (where $z_0 = 0$ and $c$ is a coordinate in complex space) until the value escapes a disk of radius $2$ ($|z_i| \geq 2$). If it does escape, the point is not in the set, otherwise, it is. We can color each pixel by how many iterations it takes break this condition to make a nice visualization.
 
@@ -32,7 +34,7 @@ sudo pacman -S sdl2 sdl2_gfx sdl2_image sdl2_mixer sdl2_ttf
 
 #### Windows (MSVC)
   1. Download the latest SDL2 MSVC development libraries from [https://www.libsdl.org/download-2.0.php](https://www.libsdl.org/download-2.0.php) e.g. (SDL2-devel-2.0.20-VC.zip).
-  2 Download the latest SDL2_image, SDL2_mixer, and SDL2_ttf MSVC development libraries from [https://www.libsdl.org/projects/](https://www.libsdl.org/projects/). e.g. (SDL2_image-devel-2.0.5-VC.zip).
+  2. Download the latest SDL2_image, SDL2_mixer, and SDL2_ttf MSVC development libraries from [https://www.libsdl.org/projects/](https://www.libsdl.org/projects/). e.g. (SDL2_image-devel-2.0.5-VC.zip).
   3. Unzip each .zip file into a folder.
   4. Copy library files:
      - from: `lib\x64\`
