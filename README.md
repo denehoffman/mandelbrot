@@ -3,7 +3,7 @@
 ## Description
 This is a very simple project I made to visualize the Mandelbrot set using Rust. The Mandelbrot set is a fractal defined by iterating $z_{i+1} = z_i^2 + c$ (where $z_0 = 0$ and $c$ is a coordinate in complex space) until the value escapes a disk of radius $2$ ($|z_i| \geq 2$). If it does escape, the point is not in the set, otherwise, it is. We can color each pixel by how many iterations it takes break this condition to make a nice visualization.
 
-The default controls are left-clicking to zoom, right-clicking to go back to the previous view, and `space` to toggle a box which shows the next zoom selection.
+The default controls are left-clicking to zoom, right-clicking to go back to the previous view, and `space` to toggle a box which shows the next zoom selection. The `left` and `right` arrow keys will also allow you to cycle through colorschemes while running the program, and `tab` will invert the colorscheme.
 
 ## Installation
 

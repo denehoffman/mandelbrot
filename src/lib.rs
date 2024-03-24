@@ -1,8 +1,94 @@
 pub mod mandelbrot {
+
     use colorgrad::Gradient;
     use num_complex::Complex;
     use pix_engine::prelude::*;
     use rayon::prelude::*;
+
+    static COLORS: [&str; 38] = [
+        "blues",
+        "br_bg",
+        "bu_gn",
+        "bu_pu",
+        "cividis",
+        "cool",
+        "cubehelix",
+        "gn_bu",
+        "greens",
+        "greys",
+        "inferno",
+        "magma",
+        "or_rd",
+        "oranges",
+        "pi_yg",
+        "plasma",
+        "pr_gn",
+        "pu_bu",
+        "pu_bu_gn",
+        "pu_or",
+        "pu_rd",
+        "purples",
+        "rainbow",
+        "rd_bu",
+        "rd_gy",
+        "rd_pu",
+        "rd_yl_bu",
+        "rd_yl_gn",
+        "reds",
+        "sinebow",
+        "spectral",
+        "turbo",
+        "viridis",
+        "warm",
+        "yl_gn",
+        "yl_gn_bu",
+        "yl_or_br",
+        "yl_or_rd",
+    ];
+
+    pub fn gradient_from_string(name: &str) -> Gradient {
+        match name {
+            "blues" => colorgrad::blues(),
+            "br_bg" => colorgrad::br_bg(),
+            "bu_gn" => colorgrad::bu_gn(),
+            "bu_pu" => colorgrad::bu_pu(),
+            "cividis" => colorgrad::cividis(),
+            "cool" => colorgrad::cool(),
+            "cubehelix" => colorgrad::cubehelix_default(),
+            "gn_bu" => colorgrad::gn_bu(),
+            "greens" => colorgrad::greens(),
+            "greys" => colorgrad::greys(),
+            "inferno" => colorgrad::inferno(),
+            "magma" => colorgrad::magma(),
+            "or_rd" => colorgrad::or_rd(),
+            "oranges" => colorgrad::oranges(),
+            "pi_yg" => colorgrad::pi_yg(),
+            "plasma" => colorgrad::plasma(),
+            "pr_gn" => colorgrad::pr_gn(),
+            "pu_bu" => colorgrad::pu_bu(),
+            "pu_bu_gn" => colorgrad::pu_bu_gn(),
+            "pu_or" => colorgrad::pu_or(),
+            "pu_rd" => colorgrad::pu_rd(),
+            "purples" => colorgrad::purples(),
+            "rainbow" => colorgrad::rainbow(),
+            "rd_bu" => colorgrad::rd_bu(),
+            "rd_gy" => colorgrad::rd_gy(),
+            "rd_pu" => colorgrad::rd_pu(),
+            "rd_yl_bu" => colorgrad::rd_yl_bu(),
+            "rd_yl_gn" => colorgrad::rd_yl_gn(),
+            "reds" => colorgrad::reds(),
+            "sinebow" => colorgrad::sinebow(),
+            "spectral" => colorgrad::spectral(),
+            "turbo" => colorgrad::turbo(),
+            "viridis" => colorgrad::viridis(),
+            "warm" => colorgrad::warm(),
+            "yl_gn" => colorgrad::yl_gn(),
+            "yl_gn_bu" => colorgrad::yl_gn_bu(),
+            "yl_or_br" => colorgrad::yl_or_br(),
+            "yl_or_rd" => colorgrad::yl_or_rd(),
+            _ => panic!("Unsupported colorscheme name!"),
+        }
+    }
 
     fn evaluate<T: Num + TryFrom<f64>>(x: T, y: T, max_iters: usize) -> f64 {
         let q = (x - from_f64(0.25)) * (x - from_f64(0.25)) + y * y;
@@ -34,7 +120,7 @@ pub mod mandelbrot {
         y_max: Vec<T>,
         set_storage: Vec<Vec<f64>>,
         max_iters: usize,
-        colors: Gradient,
+        colors: String,
         show_box: bool,
         inverted: bool,
     }
@@ -66,7 +152,7 @@ pub mod mandelbrot {
         pub fn new(
             height: usize,
             width: usize,
-            colors: Gradient,
+            colors: &str,
             max_iters: usize,
             inverted: bool,
         ) -> Self {
@@ -77,7 +163,7 @@ pub mod mandelbrot {
                 y_max: vec![from_f64(2.0)],
                 set_storage: vec![vec![0.0; height]; width],
                 max_iters,
-                colors,
+                colors: colors.to_string(),
                 show_box: false,
                 inverted,
             }
@@ -145,7 +231,7 @@ pub mod mandelbrot {
                     }
                     s.stroke(Color::from_slice(
                         ColorMode::Rgb,
-                        self.colors
+                        gradient_from_string(&self.colors)
                             .at(iters / self.max_iters as f64)
                             .to_array()
                             .into_iter()
@@ -171,10 +257,34 @@ pub mod mandelbrot {
             self.update_set(width, height);
             Ok(())
         }
-        fn on_key_released(&mut self, _s: &mut PixState, event: KeyEvent) -> PixResult<bool> {
+        fn on_key_released(&mut self, s: &mut PixState, event: KeyEvent) -> PixResult<bool> {
             match event.key {
                 Key::Space => {
                     self.show_box = !self.show_box;
+                    Ok(true)
+                }
+                Key::Left => {
+                    let ind = COLORS
+                        .iter()
+                        .position(|c| c.to_string() == self.colors)
+                        .unwrap();
+                    let next_ind = if ind == 0 { 37 } else { ind - 1 };
+                    self.colors = COLORS[next_ind].to_string();
+                    s.redraw();
+                    Ok(true)
+                }
+                Key::Right => {
+                    let ind = COLORS
+                        .iter()
+                        .position(|c| c.to_string() == self.colors)
+                        .unwrap();
+                    let next_ind = if ind == 37 { 0 } else { ind + 1 };
+                    self.colors = COLORS[next_ind].to_string();
+                    s.redraw();
+                    Ok(true)
+                }
+                Key::Tab => {
+                    self.inverted = !self.inverted;
                     Ok(true)
                 }
                 _ => Ok(false),
